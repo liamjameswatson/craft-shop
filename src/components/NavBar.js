@@ -6,6 +6,7 @@ import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlin
 
 const Container = styled.div`
   height: 60px;
+  margin-bottom: 25px;
 `;
 
 const Wrapper = styled.div`
