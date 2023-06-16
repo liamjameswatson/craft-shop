@@ -50,13 +50,12 @@ const Image = styled.img`
 `;
 
 const Icon = styled.div`
-  padding-top: 6px;
   width: 33px;
   height: 33px;
   border-radius: 50%;
   background-color: white;
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
   margin: 10px;
   transition: all 0.3 ease;
