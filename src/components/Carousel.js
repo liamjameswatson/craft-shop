@@ -91,16 +91,16 @@ const Carousel = () => {
       </Arrow>
       <Wrapper slideIndex={slideIndex}>
         {carouselSlides.map((item) => (
-          <Slide bg={item.bg}>
+          <Slide bg={item.bg} key={item.id}>
             <ImageContainer>
-              <Image src={item.image} />
+              <Image src={item.image}/>
             </ImageContainer>
             <InfoContainer>
               <Title>{item.title}</Title>
               <Description>{item.description}</Description>
               <Button>{item.buttonText}</Button>
-            </InfoContainer>
-          </Slide>
+            </InfoContainer> 
+          </Slide> 
         ))}
       </Wrapper>
       <Arrow direction="right" onClick={() => handleClick("right")}>
