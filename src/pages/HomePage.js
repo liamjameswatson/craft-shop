@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import Carousel from "../components/Carousel";
 import Categories from "../components/Categories";
 import Products from "../components/Products";
+import NewsLetter from "../components/NewsLetter";
 
 const HomePage = () => {
   return (
@@ -11,7 +12,7 @@ const HomePage = () => {
       <Carousel />
       <Categories />
       <Products />
-      {/* HomePage <h1>The Craft shop</h1> */}
+      <NewsLetter />
     </div>
   );
 };
