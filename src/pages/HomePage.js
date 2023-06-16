@@ -4,6 +4,7 @@ import Carousel from "../components/Carousel";
 import Categories from "../components/Categories";
 import Products from "../components/Products";
 import NewsLetter from "../components/NewsLetter";
+import Footer from "../components/Footer";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
       <Categories />
       <Products />
       <NewsLetter />
+      <Footer/>
     </div>
   );
 };
