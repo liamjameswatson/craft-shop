@@ -2,13 +2,13 @@ import "./App.css";
 // import HomePage from "./pages/HomePage";
 // import ProductPage from "./pages/ProductPage";
 // import RegisterPage from "./pages/Register";
-import LoginPage from './pages/LoginPage'
+import Basket from './pages/Basket'
 
 function App() {
   return (
     <div>
-      {/* <HomePage /> */}
-      <LoginPage />
+      <Basket />
+    
     </div>
   );
 }
