@@ -4,8 +4,11 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import { mobile } from "../responsive";
+
 const Container = styled.div`
   display: flex;
+  ${mobile(` flex-direction: column`)}
 `;
 
 const Left = styled.div`
@@ -41,6 +44,7 @@ const SocialIcon = styled.div`
 const Middle = styled.div`
   flex: 1;
   padding: 20px;
+  ${mobile(` display: none `)}
 `;
 
 const List = styled.ul`
@@ -60,6 +64,7 @@ const Right = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+  ${mobile(` background-color: #ebe7e7`)}
 `;
 
 const ContactItem = styled.div`

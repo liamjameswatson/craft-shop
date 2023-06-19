@@ -2,6 +2,7 @@ import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { mobile } from "../responsive";
 
 const Info = styled.div`
   opacity: 0;
@@ -30,6 +31,12 @@ const Container = styled.div`
   background-color: #f5fbfd;
   position: relative;
 
+  ${mobile(`
+  margin: 5px;
+    min-width: 150px;
+    height: 200px
+  `)}
+
   &:hover ${Info} {
     opacity: 1;
   }
@@ -47,6 +54,12 @@ const Image = styled.img`
   height: 75%;
   width: 75%;
   z-index: 2;
+  object-fit: cover;
+  /* ${mobile(`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  `)} */
 `;
 
 const Icon = styled.div`
