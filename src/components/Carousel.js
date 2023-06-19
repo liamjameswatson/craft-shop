@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { carouselSlides } from "../data";
 import styled from "styled-components";
+import { mobile } from "../responsive";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
@@ -10,6 +11,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
+  ${mobile({ display: 'none' })}
 `;
 
 const Arrow = styled.div`
@@ -42,6 +44,7 @@ const Slide = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) => props.bg};
+  ${mobile({ height: "75vh" })}
 `;
 
 const ImageContainer = styled.div`
@@ -76,13 +79,13 @@ const Carousel = () => {
   const [slideIndex, setSlideIndex] = useState(0);
 
   const handleClick = (direction) => {
-  const lastIndex = carouselSlides.length - 1;
-  if (direction === "left") {
-    setSlideIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : lastIndex));
-  } else {
-    setSlideIndex((prevIndex) => (prevIndex < lastIndex ? prevIndex + 1 : 0));
-  }
-};
+    const lastIndex = carouselSlides.length - 1;
+    if (direction === "left") {
+      setSlideIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : lastIndex));
+    } else {
+      setSlideIndex((prevIndex) => (prevIndex < lastIndex ? prevIndex + 1 : 0));
+    }
+  };
 
   return (
     <Container>
@@ -93,14 +96,14 @@ const Carousel = () => {
         {carouselSlides.map((item) => (
           <Slide bg={item.bg} key={item.id}>
             <ImageContainer>
-              <Image src={item.image}/>
+              <Image src={item.image} />
             </ImageContainer>
             <InfoContainer>
               <Title>{item.title}</Title>
               <Description>{item.description}</Description>
               <Button>{item.buttonText}</Button>
-            </InfoContainer> 
-          </Slide> 
+            </InfoContainer>
+          </Slide>
         ))}
       </Wrapper>
       <Arrow direction="right" onClick={() => handleClick("right")}>
