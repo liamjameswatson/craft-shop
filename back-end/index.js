@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
 
+const userRoute = require("./routes/user");
+
 dotenv.config({ path: "./config.env" });
 
 const DB = process.env.DATABASE_STRING.replace(
@@ -18,6 +20,8 @@ mongoose
     console.log(DB);
   });
 
+app.use(express.json());
+app.use("/api/users", userRoute);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("Backend running");
