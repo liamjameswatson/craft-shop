@@ -1,0 +1,26 @@
+{
+  "name": "craft-shop",
+  "version": "1.0.0",
+  "description": "An ecommerce site where users can buy art and craft products",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liamjameswatson/craft-shop.git"
+  },
+  "author": "Liam Watson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liamjameswatson/craft-shop/issues"
+  },
+  "homepage": "https://github.com/liamjameswatson/craft-shop#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.3.0",
+    "nodemon": "^2.0.22"
+  }
+}
