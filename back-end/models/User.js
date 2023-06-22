@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const util = require('util');
+const util = require("util");
 const hashAsync = util.promisify(bcrypt.hash);
 
 const userSchema = new mongoose.Schema(
