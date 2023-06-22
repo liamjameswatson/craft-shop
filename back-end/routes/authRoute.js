@@ -11,6 +11,9 @@ router.post("/register", async (req, res) => {
     role: req.body.role,
     password: req.body.password,
   });
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+  req.body.password = hashedPassword;
   try {
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
