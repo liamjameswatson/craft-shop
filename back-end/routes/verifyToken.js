@@ -9,7 +9,6 @@ const verifyToken = (req, res, next) => {
       if (err)
         res.status(403).json({ message: "Invalid Token. Please log in." });
       req.user = user;
-      console.log(req.headers);
       next();
     });
   } else {
@@ -29,4 +28,18 @@ const verifyTokenAndAuthorisation = (req, res, next) => {
   });
 };
 
-module.exports = { verifyToken, verifyTokenAndAuthorisation };
+const verifyTokenAndRestrictToAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.role === "admin") {
+      next();
+    } else {
+      res.status(403).json("Access denied");
+    }
+  });
+};
+
+module.exports = {
+  verifyToken,
+  verifyTokenAndAuthorisation,
+  verifyTokenAndRestrictToAdmin,
+};
