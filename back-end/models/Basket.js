@@ -1,4 +1,3 @@
-const { timeStamp } = require("console");
 const mongoose = require("mongoose");
 
 const basketSchema = new mongoose.Schema(
@@ -16,7 +15,7 @@ const basketSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
-module.exports = mongoose.model("Basket, basketSchema");
+module.exports = mongoose.model("Basket", basketSchema);
