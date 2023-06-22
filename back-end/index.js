@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
 const authRoute = require("./routes/authRoute");
+const productRoute = require("./routes/productRoute");
 
 const userRoute = require("./routes/userRoute");
 
@@ -17,6 +18,7 @@ mongoose
   .connect(DB)
   .then(() => console.log("DB Connection success"))
   .catch((err) => {
+    p;
     console.log(err);
     console.log(DB);
   });
@@ -24,6 +26,7 @@ mongoose
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("Backend running");

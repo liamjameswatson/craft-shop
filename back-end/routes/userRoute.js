@@ -1,5 +1,4 @@
 const {
-  verifyToken,
   verifyTokenAndAuthorisation,
   verifyTokenAndRestrictToAdmin,
 } = require("./verifyToken");
