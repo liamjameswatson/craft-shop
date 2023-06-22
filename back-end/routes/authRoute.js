@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -29,8 +30,6 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(req.body.password);
-    console.log(user.password);
 
     bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (err) {
@@ -39,8 +38,19 @@ router.post("/login", async (req, res) => {
       }
       if (result) {
         // Passwords match, proceed with login logic
-        // ... Send JWT or perform other actions ...
-        return res.status(200).json({ message: "Login successful" });
+        const accessToken = jwt.sign(
+          {
+            id: user._id,
+            role: user.role,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "90d" }
+        );
+        const { password, ...otherInfo } = user._doc;
+
+        return res
+          .status(200)
+          .json({ message: "Login successful", otherInfo, accessToken });
       } else {
         // Passwords do not match
         return res.status(401).json({ message: "Invalid password" });
