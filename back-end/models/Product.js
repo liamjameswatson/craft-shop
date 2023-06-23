@@ -18,10 +18,13 @@ const productSchema = new mongoose.Schema(
       required: [true, "A tour must have a product image"],
     },
     images: [String],
+    materials: { type: Array },
     categories: { type: Array },
-    size: { type: String },
-    color: { type: String },
+    tags: { type: Array },
+    size: { type: Array },
+    color: { type: Array },
     price: { type: Number, required: [true, "A product must have a price"] },
+    inStock: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
