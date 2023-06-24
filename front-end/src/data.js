@@ -90,7 +90,7 @@ export const popularProducts = [
   },
 ];
 
-const products = [
+export const products = [
   {
     _id: "6495b5a17e480c85c9fd7140",
     name: "Paignton Pier",

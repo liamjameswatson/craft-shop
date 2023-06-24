@@ -7,14 +7,13 @@ import LoginPage from "./pages/LoginPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-
 function App() {
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductPage />} />
-        <Route path="/category" element={<CategoriesPage />} />
+        <Route path="/category/:categoryName" element={<CategoriesPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/basket" element={<Basket />} />
         <Route path="/register" element={<RegisterPage />} />

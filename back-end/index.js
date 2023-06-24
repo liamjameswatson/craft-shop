@@ -6,7 +6,7 @@ const authRoute = require("./routes/authRoute");
 const productRoute = require("./routes/productRoute");
 const basketRoute = require("./routes/basketRoute");
 const orderRoute = require("./routes/orderRoute");
-
+const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 
 dotenv.config({ path: "./config.env" });
@@ -24,6 +24,9 @@ mongoose
     console.log(err);
     console.log(DB);
   });
+
+// Enable CORS middleware
+app.use(cors());
 
 app.use(express.json());
 app.use("/api/auth", authRoute);
