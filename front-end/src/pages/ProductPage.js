@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useLocation } from "react-router-dom";
 
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { mobile } from "../responsive";
+import { useState } from "react";
+import { useEffect } from "react";
+import { publicRequest } from "../requestMethod";
 
 const Container = styled.div``;
 
@@ -110,37 +114,32 @@ const Button = styled.button`
 `;
 
 const ProductPage = () => {
+  const location = useLocation();
+  const productId = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get(`/products/find/${productId}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+  }, [productId]);
   return (
     <Container>
       <NavBar />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://diamondpainting5d.com/wp-content/uploads/2022/05/Paignton-pier-paint-by-numbers.jpg"></Image>
+          <Image src={product.image}></Image>
         </ImageContainer>
         <InfoContainer>
-          <Title>Paignton pier - acyrlic</Title>
-          <Description>
-            Laboris ea aute ad et eu quis fugiat. Culpa deserunt sunt irure ea
-            incididunt veniam sit sint laboris amet fugiat reprehenderit
-            occaecat. Commodo dolor incididunt voluptate tempor aute sint
-            dolore. Cillum esse deserunt quis adipisicing. Eu duis elit deserunt
-            ad in occaecat cillum proident tempor. Culpa id irure quis officia
-            velit est elit eiusmod anim sint. Cillum veniam est ut et ad ullamco
-            anim tempor laboris. Do ad velit elit incididunt excepteur aliquip
-            aliquip nulla esse pariatur duis culpa. Reprehenderit velit laborum
-            eu proident qui. Ea magna esse eiusmod nulla elit velit aute culpa.
-            Nostrud nulla minim occaecat sunt aliquip elit in nostrud
-            reprehenderit exercitation et nisi. Sunt irure aliquip id veniam
-            sunt nulla incididunt esse. Reprehenderit sunt sit aliqua consequat
-            sunt deserunt dolore quis ut ullamco deserunt amet. Laboris laboris
-            sit ea velit dolor Lorem nulla commodo est do. Mollit pariatur
-            laboris eiusmod enim. Eu eu aliquip occaecat tempor pariatur eu
-            culpa tempor excepteur. Nostrud minim ex aliqua dolore do non
-            eiusmod do et ut excepteur duis et. Reprehenderit commodo occaecat
-            ad deserunt consequat enim elit cupidatat commodo cillum est fugiat
-            quis.
-          </Description>
-          <Price>£200</Price>
+          <Title>{product.title}</Title>
+          <Description>{product.description}</Description>
+          <Price>{product.price}</Price>
 
           <FilterContainer>
             <Filter>

@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Info = styled.div`
   opacity: 0;
@@ -91,7 +92,9 @@ const Product = ({ item }) => {
           <ShoppingBasketOutlinedIcon />
         </Icon>
         <Icon>
-          <SearchIcon />
+          <Link to={`/product/${item._id}`}>
+            <SearchIcon />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteRoundedIcon />
