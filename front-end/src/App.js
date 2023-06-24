@@ -4,7 +4,7 @@ import ProductPage from "./pages/ProductPage";
 import RegisterPage from "./pages/Register";
 import Basket from "./pages/Basket";
 import LoginPage from "./pages/LoginPage";
-// import CategoryPage from "./pages/Products/:category";
+import CategoriesPage from "./pages/CategoriesPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductPage />} />
-        {/* <Route path="/products/:category" element={<CategoryPage />} /> */}
+        <Route path="/category/:categoryName" element={<CategoriesPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/basket" element={<Basket />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -22,5 +22,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
