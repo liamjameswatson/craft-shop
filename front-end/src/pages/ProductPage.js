@@ -8,7 +8,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { mobile } from "../responsive";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { publicRequest } from "../requestMethod";
+import { addProduct } from "../redux/basketRedux";
 
 const Container = styled.div``;
 
@@ -117,6 +119,21 @@ const ProductPage = () => {
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleQuantity = (type) => {
+    type === "decrease"
+      ? quantity > 1 && setQuantity((prevQuantity) => prevQuantity - 1)
+      : setQuantity((prevQuantity) => prevQuantity + 1);
+    // quantity > stockQuantity : setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleAddToBasket = () => {
+    //update basket
+    dispatch(addProduct({ ...product, quantity }));
+    // dispatch(addProduct({ ...product, quantity, color, size}));
+  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -162,11 +179,13 @@ const ProductPage = () => {
           </FilterContainer>
           <PurchaseContainer>
             <QuantityContainer>
-              <RemoveIcon></RemoveIcon>
-              <Quantity>1</Quantity>
-              <AddIcon></AddIcon>
+              <RemoveIcon
+                onClick={() => handleQuantity("decrease")}
+              ></RemoveIcon>
+              <Quantity>{quantity}</Quantity>
+              <AddIcon onClick={() => handleQuantity("increase")}></AddIcon>
             </QuantityContainer>
-            <Button>Add to basket</Button>
+            <Button onClick={handleAddToBasket}>Add to basket</Button>
           </PurchaseContainer>
         </InfoContainer>
       </Wrapper>

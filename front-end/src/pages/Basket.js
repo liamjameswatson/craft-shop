@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
 
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -147,6 +148,7 @@ const SummaryItemButton = styled.button`
 `;
 
 const Basket = () => {
+  const basket = useSelector((state) => state.basket);
   return (
     <Container>
       <NavBar />
@@ -162,65 +164,47 @@ const Basket = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://imagedelivery.net/0ObHXyjKhN5YJrtuYFSvjQ/i-597d495a-a7dd-464a-9c20-9d30de5eb154-beautiful-handmade-macrame-fairy-flower-doll-nursery-decor-baby-gift-namaste-crafts/display" />
-                <Details>
-                  <ProductName>
-                    <strong>Product:</strong> Doll
-                  </ProductName>
-                  <ProductId>
-                    <strong>ID:</strong> 5835uehe833
-                  </ProductId>
-                  <ProductColor color="#dc27b8"></ProductColor>
-                  <ProductSize>
-                    <strong>Size:</strong> 15.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductQuantityContainer>
-                  <AddIcon></AddIcon>
-                  <ProductQuantity>2</ProductQuantity>
-                  <RemoveIcon></RemoveIcon>
-                </ProductQuantityContainer>
-                <ProductPrice>£30</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {basket.products.map((product) => (
+              <>
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.image} />
+                    <Details>
+                      <ProductName>
+                        <strong>Product:</strong>
+                        {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <strong>ID:</strong> {product._id}
+                      </ProductId>
+                      <ProductColor color={product.color}></ProductColor>
+                      <ProductSize>
+                        <strong>Size:</strong> {product.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductQuantityContainer>
+                      <AddIcon></AddIcon>
+                      <ProductQuantity>{product.quantity}</ProductQuantity>
+                      <RemoveIcon></RemoveIcon>
+                    </ProductQuantityContainer>
+                    <ProductPrice>
+                      {product.price * product.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+                <Hr />
+              </>
+            ))}
 
             <Hr />
-
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/550x/fc/6b/d8/fc6bd85862bf720a5cc87d28574dcbed.jpg" />
-                <Details>
-                  <ProductName>
-                    <strong>Product:</strong> diamondpainting5doll with flower
-                  </ProductName>
-                  <ProductId>
-                    <strong>ID:</strong> 5835uehe833
-                  </ProductId>
-                  <ProductColor color="#dc2727"></ProductColor>
-                  <ProductSize>
-                    <strong>Size:</strong> 10.4
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductQuantityContainer>
-                  <AddIcon></AddIcon>
-                  <ProductQuantity>2</ProductQuantity>
-                  <RemoveIcon></RemoveIcon>
-                </ProductQuantityContainer>
-                <ProductPrice>£30</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>£80</SummaryItemPrice>
+              <SummaryItemPrice>£ {basket.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimate Shipping</SummaryItemText>
@@ -232,7 +216,7 @@ const Basket = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>£80</SummaryItemPrice>
+              <SummaryItemPrice>{basket.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItemButton>Checkout now</SummaryItemButton>
           </Summary>
