@@ -49,7 +49,7 @@ const CategoriesPage = () => {
   return (
     <Container>
       <NavBar />
-      <Title>Art</Title>
+      <Title>{category.charAt(0).toUpperCase() + category.slice(1)}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
