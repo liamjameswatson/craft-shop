@@ -5,9 +5,18 @@ import RegisterPage from "./pages/Register";
 import Basket from "./pages/Basket";
 import LoginPage from "./pages/LoginPage";
 import CategoriesPage from "./pages/CategoriesPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Redirect,
+  Navigate,
+} from "react-router-dom";
+import Success from "./pages/Success";
+import { useSelector } from "react-redux";
 
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <Routes>
@@ -16,8 +25,15 @@ function App() {
         <Route path="/category/:categoryName" element={<CategoriesPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/basket" element={<Basket />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/success" element={<Success />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/" replace /> : <LoginPage />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/" /> : <RegisterPage />}
+        />
       </Routes>
     </Router>
   );

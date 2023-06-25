@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import{ mobile} from "../responsive";
-
+import { mobile } from "../responsive";
+import { useState } from "react";
+import { login } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100vw;
@@ -14,17 +16,17 @@ const Container = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
-  `;
+`;
 
 const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
-  ${mobile ({ width: '75%' })}
+  ${mobile({ width: "75%" })}
 `;
 
 const Title = styled.h1`
@@ -53,6 +55,16 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+
+  //if disabled meaning itFetching (or is loading0
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
+`;
+
+const Error = styled.span`
+  color: red;
 `;
 
 const Link = styled.a`
@@ -63,14 +75,37 @@ const Link = styled.a`
 `;
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(dispatch, { email, password });
+  };
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <Form>
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Button>Login</Button>
+          <Input placeholder="email" onChange={handleEmail} />
+          <Input
+            placeholder="password"
+            type="password"
+            onChange={handlePassword}
+          />
+          <Button onClick={handleLogin} disabled={isFetching}>
+            Login
+          </Button>
+          {error && <Error>Something went wrong...</Error>}
           <Link>Forgot password</Link>
           <Link>Create a new account</Link>
         </Form>
