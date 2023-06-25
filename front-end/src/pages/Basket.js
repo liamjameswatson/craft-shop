@@ -1,12 +1,19 @@
 import styled from "styled-components";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
-
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { userRequest } from "../requestMethod";
+// const KEY = process.env.REACT_APP_STRIPE;
+const KEY =
+  "pk_test_51NMb37E0M3VJHghm18HiuWzNJdpG7ey2TTIcW1WDQWChgaHoX0kBoiFkeWSNsXt2GRVRVS1qiHL9j01vwdmWXZQA00ZdC6H5Wc";
 
 const Container = styled.div``;
 
@@ -139,7 +146,7 @@ const SummaryItem = styled.div`
 `;
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
-const SummaryItemButton = styled.button`
+const Button = styled.button`
   width: 100%;
   padding: 10px;
   background-color: black;
@@ -149,6 +156,30 @@ const SummaryItemButton = styled.button`
 
 const Basket = () => {
   const basket = useSelector((state) => state.basket);
+  const [stripeToken, setStripeToken] = useState(null);
+  const navigate = useNavigate();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          // amount: basket.total * 100,
+          amount: 500,
+        });
+        navigate.push("/success", { data: res.data });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && basket.total >= 1 && makeRequest();
+  }, [stripeToken, basket.total, navigate]);
+
+  // console.log(stripeToken);
   return (
     <Container>
       <NavBar />
@@ -218,7 +249,17 @@ const Basket = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>{basket.total}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItemButton>Checkout now</SummaryItemButton>
+            <StripeCheckout
+              name="Craft Shop"
+              image="https://i.etsystatic.com/18891458/r/il/7f4f8d/3146030942/il_794xN.3146030942_5t2r.jpg"
+              billingAddress
+              shippingAddress
+              description={`Your total is £${basket.total * 100}`}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>Checkout now</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>
