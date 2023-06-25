@@ -1,8 +1,10 @@
-import "./HomePageAdmin.scss";
+import SideBar from "../../components/sidebar/SideBar";
+import "./homePageAdmin.scss";
 
 const HomePageAdmin = () => {
   return <div className="home">
-    <h1 className="title">home</h1>
+    <SideBar />
+    <div className="homeContainer">container</div>
   </div>;
 
 };

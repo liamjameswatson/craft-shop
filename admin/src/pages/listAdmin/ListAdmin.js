@@ -1,4 +1,4 @@
-import "./ListAdmin.scss";
+import "./listAdmin.scss";
 
 const ListAdmin = () => {
   return (

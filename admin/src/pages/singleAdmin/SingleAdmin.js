@@ -1,4 +1,4 @@
-import "./SingleAdmin.scss";
+import "./singleAdmin.scss";
 
 const SingleAdmin = () => {
   return (
