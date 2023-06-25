@@ -1,4 +1,4 @@
-import "./NewAdmin.scss";
+import "./newAdmin.scss";
 
 const NewAdmin = () => {
   return <div className="home">
