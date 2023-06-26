@@ -1,6 +1,8 @@
 import NavBar from "../../components/navBar/NavBar";
 import SideBar from "../../components/sidebar/SideBar";
 import Widget from "../../components/widget/Widget";
+import Featured from "../../components/featured/Featured";
+import Chart from '../../components/chart/Chart'
 import "./homePageAdmin.scss";
 
 const HomePageAdmin = () => {
@@ -14,6 +16,10 @@ const HomePageAdmin = () => {
           <Widget type="order" />
           <Widget type="earnings" />
           <Widget type="balance" />
+        </div>
+        <div className="charts">
+          <Featured />
+          <Chart />
         </div>
       </div>
     </div>
