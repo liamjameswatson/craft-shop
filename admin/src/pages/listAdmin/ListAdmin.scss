@@ -1,5 +1,8 @@
-// .home { background-color: rebeccapurple;
-//     .title {
-//         color: #fff;
-//     }
-// }
+.list {
+  display: flex;
+  width: 100%;
+
+  .listContainer {
+    flex: 6;
+  }
+}
