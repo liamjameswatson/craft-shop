@@ -2,7 +2,7 @@ import NavBar from "../../components/navBar/NavBar";
 import SideBar from "../../components/sidebar/SideBar";
 import Widget from "../../components/widget/Widget";
 import Featured from "../../components/featured/Featured";
-import Chart from '../../components/chart/Chart'
+import Chart from "../../components/chart/Chart";
 import "./homePageAdmin.scss";
 import List from "../../components/table/Table";
 
@@ -20,7 +20,7 @@ const HomePageAdmin = () => {
         </div>
         <div className="charts">
           <Featured />
-          <Chart />
+          <Chart title={"Last 6 months"} aspect={2 / 1} />
         </div>
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
