@@ -1,29 +1,8 @@
-import styled from "styled-components";
-import Product from "./Product";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { mobile } from "../responsive";
-import { useEffect, useState } from "react";
-
-const Container = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  ${mobile`
-    flex-direction: column;
-    
-    & > * {
-      width: 100%;
-    }
-  `}
-
-  ${mobile(`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  `)}
-`;
+import { Link } from "react-router-dom";
+import Product from "./Product";
+import styles from "./products.module.css";
 
 const Products = ({ category, filter, sort }) => {
   const [products, setProducts] = useState([]);
@@ -80,13 +59,15 @@ const Products = ({ category, filter, sort }) => {
   }, [sort]);
 
   return (
-    <Container>
+    <div className={styles.container}>
       {category
-        ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
-        : products
-            .slice(0, 8)
-            .map((item) => <Product item={item} key={item._id} />)}
-    </Container>
+        ? filteredProducts.map((item) => (
+            <Product item={item} key={item._id} />
+          ))
+        : products.slice(0, 8).map((item) => (
+            <Product item={item} key={item._id} />
+          ))}
+    </div>
   );
 };
 

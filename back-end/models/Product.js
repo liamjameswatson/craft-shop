@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, "A tour must have a product image"],
+      // required: [true, "A tour must have a product image"],
     },
     images: [String],
     materials: { type: Array },

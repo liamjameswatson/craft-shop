@@ -1,67 +1,39 @@
 import React from "react";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import styled from "styled-components";
-import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Badge } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
+import styles from "./NavBar.module.css";
 
+const NavBar = () => {
+  const quantity = useSelector((state) => state.basket.quantity);
+  console.log(quantity);
 
-
-const Container = styled.div`
-  height: 60vh;
-  background-color: #fcf5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const Title = styled.h1`
-  font-size: 70px;
-  margin-bottom: 20px;
-`;
-
-const Description = styled.div`
-  font-size: 24px;
-  font-weight: 300;
-  margin-bottom: 20px;
-  ${mobile(` text-align: center `)}
-`;
-
-const InputContainer = styled.div`
-  width: 40%;
-  height: 40px;
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid lightgray;
-  ${mobile(` width: 80% `)}
-`;
-
-const Input = styled.input`
-  border: none;
-  flex: 8;
-  padding-left: 20px;
-`;
-
-const Button = styled.button`
-  flex: 1.5;
-  border: none;
-  background-color: teal;
-  color: white;
-`;
-
-const NewsLetter = () => {
   return (
-    <Container>
-      <Title>Newsletter</Title>
-      <Description>Stay Informed about Art, Creativity, and More!</Description>
-      <InputContainer>
-        <Input placeholder="Your email" />
-        <Button>
-          <SendRoundedIcon />
-        </Button>
-      </InputContainer>
-    </Container>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.left}>
+          <div className={styles.searchContainer}>
+            <input className={styles.input} type="text" placeholder="Search" />
+            <SearchIcon style={{ color: "gray", fontSize: "16px" }} />
+          </div>
+        </div>
+        <div className={styles.middle}>
+          <h1 className={styles.logo}>The Craft Shop</h1>
+        </div>
+        <div className={styles.right}>
+          <div className={styles.menuItem}>REGISTER</div>
+          <div className={styles.menuItem}>SIGN IN</div>
+          <Link to="/basket" className={styles.menuItem}>
+            <Badge badgeContent={quantity} color="primary">
+              <ShoppingBasketOutlinedIcon />
+            </Badge>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default NewsLetter;
+export default NavBar;

@@ -9,7 +9,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Redirect,
   Navigate,
 } from "react-router-dom";
 import Success from "./pages/Success";
@@ -27,7 +26,7 @@ function App() {
         <Route path="/basket" element={<Basket />} />
         <Route path="/success" element={<Success />} />
         <Route
-          path="/login"
+          path="/login" f 
           element={user ? <Navigate to="/" replace /> : <LoginPage />}
         />
         <Route
