@@ -1,35 +1,33 @@
-import "./navBar.scss";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import React from "react";
+import styles from "./navbar.module.css";
+import { NotificationsNone, Language, Settings } from "@mui/icons-material";
 
-const NavBar = () => {
+export default function Navbar() {
   return (
-    <div className="navbar">
-      <div className="wrapper">
-        <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon className="icon" />
+    <div className={styles.Navbar}>
+      <div className={styles.NavbarWrapper}>
+        <div className={styles.topLeft}>
+          <span className={styles.logo}>lamaadmin</span>
         </div>
-        <div className="items">
-          <div className="item">
-            <DarkModeOutlinedIcon className="icon" />
+        <div className={styles.topRight}>
+          <div className={styles.NavbarIconContainer}>
+            <NotificationsNone />
+            <span className={styles.topIconBadge}>2</span>
           </div>
-          <div className="item">
-            <FullscreenExitOutlinedIcon className="icon" />
+          <div className={styles.NavbarIconContainer}>
+            <Language />
+            <span className={styles.topIconBadge}>2</span>
           </div>
-          <div className="item">
-            <NotificationsOutlinedIcon className="icon" />
+          <div className={styles.NavbarIconContainer}>
+            <Settings />
           </div>
-          <div className="item">
-            <ListOutlinedIcon className="icon" />
-          </div>
+          <img
+            src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            alt=""
+            className={styles.topAvatar}
+          />
         </div>
       </div>
     </div>
   );
-};
-
-export default NavBar;
+}

@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-      type: Object,
+      type: String,
       required: true,
     },
     status: {
