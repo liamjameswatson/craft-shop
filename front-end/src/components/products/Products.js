@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Product from "./Product";
+import Product from "../product/Product";
 import styles from "./products.module.css";
 
 const Products = ({ category, filter, sort }) => {
@@ -61,12 +61,10 @@ const Products = ({ category, filter, sort }) => {
   return (
     <div className={styles.container}>
       {category
-        ? filteredProducts.map((item) => (
-            <Product item={item} key={item._id} />
-          ))
-        : products.slice(0, 8).map((item) => (
-            <Product item={item} key={item._id} />
-          ))}
+        ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
+        : products
+            .slice(0, 8)
+            .map((item) => <Product item={item} key={item._id} />)}
     </div>
   );
 };

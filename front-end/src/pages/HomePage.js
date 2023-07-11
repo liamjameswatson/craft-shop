@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import Carousel from "../components/Carousel";
-import Categories from "../components/Categories";
-import Products from "../components/Products";
-import NewsLetter from "../components/NewsLetter";
-import Footer from "../components/Footer";
+import NavBar from "../components/navbar/NavBar";
+import Carousel from "../components/carousel/Carousel";
+import Categories from "../components/categories/Categories";
+import Products from "../components/products/Products";
+import NewsLetter from "../components/newsletter/NewsLetter";
+import Footer from "../components/footer/Footer";
 
 const HomePage = () => {
   return (

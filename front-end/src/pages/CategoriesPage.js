@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Products from "../components/Products";
-import NewsLetter from "../components/NewsLetter";
+import NavBar from "../components/navbar/NavBar";
+import Footer from "../components/footer/Footer";
+import Products from "../components/products/Products";
+import NewsLetter from "../components/newsletter/NewsLetter";
 import { useLocation } from "react-router-dom";
 
 const Container = styled.div``;
