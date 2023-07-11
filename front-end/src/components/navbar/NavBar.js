@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Badge } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
-import styles from "./NavBar.module.css";
+import styles from "./navBar.module.css";
 
 const NavBar = () => {
   const quantity = useSelector((state) => state.basket.quantity);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { carouselSlides } from "../data";
-import styles from "./Carousel.module.css";
+import { carouselSlides } from "../../data";
+import styles from "./carousel.module.css";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 

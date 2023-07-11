@@ -1,18 +1,38 @@
 const router = require("express").Router();
 const Basket = require("../models/Basket");
-const { verifyTokenAndAuthorisation, verifyTokenAndRestrictToAdmin } = require("./verifyToken");
+const catchAsync = require('../utils/catchAsync')
+const {
+  verifyTokenAndAuthorisation,
+  verifyTokenAndRestrictToAdmin,
+} = require("./verifyToken");
 
 //CREATE
 
-router.post("/", verifyTokenAndAuthorisation, async (req, res) => {
+// const catchAsync = (fn) => {
+//   return (req, res, next) => {
+//     fn(req, res, next).catch((err) => next(err));
+//   };
+// };
+
+catchAsync(async (req, res, next) => {
   const newBasket = new Basket(req.body);
   try {
     const savedBasket = await newBasket.save();
-    res.status(200).json(savedBasket);
+    res.status(200).json({ status: "success", data: { savedBasket } });
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
+// router.post("/", verifyTokenAndAuthorisation, async (req, res) => {
+//   const newBasket = new Basket(req.body);
+//   try {
+//     const savedBasket = await newBasket.save();
+//     res.status(200).json(savedBasket);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // Update
 
@@ -45,7 +65,7 @@ router.delete("/:id", verifyTokenAndAuthorisation, async (req, res) => {
 // GET USER BASKET
 router.get("/find/:userId", verifyTokenAndAuthorisation, async (req, res) => {
   try {
-    const basket = await Basket.findByOne({userId: req.params.userId});
+    const basket = await Basket.findByOne({ userId: req.params.userId });
     res.status(200).json(basket);
   } catch (err) {
     res.status(500).json(err);
@@ -54,14 +74,12 @@ router.get("/find/:userId", verifyTokenAndAuthorisation, async (req, res) => {
 
 // GET ALL BASKETS
 router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
-    try{
-        const baskets = await Basket.find()
-        res.status(200).json(baskets)
-
-    }catch(err){
-        res.status(500).json(err)
-    }
+  try {
+    const baskets = await Basket.find();
+    res.status(200).json(baskets);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
-

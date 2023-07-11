@@ -2,13 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
+const AppError = require("./utils/AppError");
+const globalErrorHandler = require("./controller/errorController");
+
 const authRoute = require("./routes/authRoute");
 const productRoute = require("./routes/productRoute");
 const basketRoute = require("./routes/basketRoute");
 const orderRoute = require("./routes/orderRoute");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
-const stripeRoute = require('./routes/stripeRoute')
+const stripeRoute = require("./routes/stripeRoute");
 
 dotenv.config({ path: "./config.env" });
 
@@ -34,8 +37,16 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/baskets", basketRoute);
 app.use("/api/orders", orderRoute);
-app.use('api/checkout', stripeRoute)
+app.use("/api/checkout", stripeRoute);
 
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+console.log(process.env);
+app.use(globalErrorHandler);
+
+// console.log(process.env);
 app.listen(process.env.PORT || 8000, () => {
   console.log("Backend running");
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CategoryItem.module.css";
+import styles from "./categoryItem.module.css";
 
 const CategoryItem = ({ item }) => {
   return (

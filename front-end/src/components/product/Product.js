@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { mobile } from "../responsive";
-import styles from "./Product.module.css";
+import { mobile } from "../../responsive";
+import styles from "./product.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
