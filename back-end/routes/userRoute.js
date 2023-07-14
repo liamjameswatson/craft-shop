@@ -1,11 +1,29 @@
+const router = require("express").Router();
 const {
   verifyTokenAndAuthorisation,
   verifyTokenAndRestrictToAdmin,
 } = require("./verifyToken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const {
+  createUser,
+  getAllUser,
+  getOneUser,
+  deleteUser,
+  getAllUsers
+} = require("../controller/userController");
 
-const router = require("express").Router();
+
+//Get One
+router.route("/:id").get(verifyTokenAndRestrictToAdmin,getOneUser)
+
+//Get All
+router.route('/').get(verifyTokenAndRestrictToAdmin, getAllUsers)
+
+//Delete User
+router.route('/:id').delete(verifyTokenAndRestrictToAdmin, deleteUser)
+
+
 
 // Update
 
@@ -30,41 +48,6 @@ router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
   }
 });
 
-// Delete
-
-router.delete("/:id", verifyTokenAndAuthorisation, async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "User has been deleted" });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// GET USER
-router.get("/find/:id", verifyTokenAndRestrictToAdmin, async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    const { password, ...otherInfo } = user._doc;
-    res.status(200).json(otherInfo);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// GET ALL USERS
-router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
-  const query = req.query.new;
-  try {
-    const users = query
-      ? await User.find().sort({ _id: -1 }).limit(5)
-      : await User.find();
-
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 // GET USER STATS
 router.get("/stats", verifyTokenAndRestrictToAdmin, async (req, res) => {

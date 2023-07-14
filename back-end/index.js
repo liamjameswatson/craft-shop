@@ -43,7 +43,6 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-console.log(process.env);
 app.use(globalErrorHandler);
 
 // console.log(process.env);
