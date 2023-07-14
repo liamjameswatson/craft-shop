@@ -4,18 +4,25 @@ const {
   verifyTokenAndAuthorisation,
   verifyTokenAndRestrictToAdmin,
 } = require("./verifyToken");
+const {
+  createOrder,
+  getAllOrders,
+  getOneOrder,
+  deleteOrder,
+} = require("../controller/orderController");
 
 //CREATE
+router.route("/").post(verifyTokenAndAuthorisation, createOrder);
 
-router.post("/", verifyTokenAndAuthorisation, async (req, res) => {
-  const newOrder = new Order(req.body);
-  try {
-    const savedOrder = await newOrder.save();
-    res.status(200).json(savedOrder);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.post("/", verifyTokenAndAuthorisation, async (req, res) => {
+//   const newOrder = new Order(req.body);
+//   try {
+//     const savedOrder = await newOrder.save();
+//     res.status(200).json(savedOrder);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // Update
 
@@ -36,14 +43,16 @@ router.put("/:id", verifyTokenAndRestrictToAdmin, async (req, res) => {
 
 // Delete
 
-router.delete("/:id", verifyTokenAndRestrictToAdmin, async (req, res) => {
-  try {
-    await Order.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Order has been deleted" });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.delete("/:id", verifyTokenAndRestrictToAdmin, async (req, res) => {
+//   try {
+//     await Order.findByIdAndDelete(req.params.id);
+//     res.status(200).json({ message: "Order has been deleted" });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+router.route("/:id", verifyTokenAndRestrictToAdmin, deleteOrder);
 
 // GET USER ORDERS
 router.get("/find/:userId", verifyTokenAndAuthorisation, async (req, res) => {
@@ -56,6 +65,8 @@ router.get("/find/:userId", verifyTokenAndAuthorisation, async (req, res) => {
 });
 
 // GET ALL ORDERS
+// router.route("/").get(verifyTokenAndRestrictToAdmin, getAllOrders);
+
 router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
   try {
     const orders = await Order.find();
@@ -64,6 +75,19 @@ router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// GET ONE ORDER
+router.get("/:id", verifyTokenAndAuthorisation, getOneOrder);
+
+// router.get("/:id", verifyTokenAndAuthorisation, async (req, res) => {
+//   try {
+//     console.log(req.params.id);
+//     const order = await Order.findById(req.params.id)
+//     res.status(200).json(order)
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 //GET MONTHLY INCOME
 
@@ -77,7 +101,9 @@ router.get("/income", verifyTokenAndRestrictToAdmin, async (req, res) => {
       {
         $match: {
           createdAt: { $gte: previousMonth },
-          ...(productId && { products: { $elementMatch: { productId: productId } } }),
+          ...(productId && {
+            products: { $elementMatch: { productId: productId } },
+          }),
         },
       },
       {

@@ -6,13 +6,6 @@ const {
   verifyTokenAndRestrictToAdmin,
 } = require("./verifyToken");
 
-//CREATE
-
-// const catchAsync = (fn) => {
-//   return (req, res, next) => {
-//     fn(req, res, next).catch((err) => next(err));
-//   };
-// };
 
 catchAsync(async (req, res, next) => {
   const newBasket = new Basket(req.body);
@@ -24,17 +17,8 @@ catchAsync(async (req, res, next) => {
   }
 });
 
-// router.post("/", verifyTokenAndAuthorisation, async (req, res) => {
-//   const newBasket = new Basket(req.body);
-//   try {
-//     const savedBasket = await newBasket.save();
-//     res.status(200).json(savedBasket);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
-// Update
+
 
 router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
   updatedBasket = await Basket.findByIdAndUpdate(
@@ -52,6 +36,8 @@ router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
 });
 
 // Delete
+
+// exports.deleteBasket = factory.deleteOne(Basket)
 
 router.delete("/:id", verifyTokenAndAuthorisation, async (req, res) => {
   try {

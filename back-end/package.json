@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " set NODE_ENV=development && nodemon index.js",
-    "start:prod":  "set NODE_ENV=production && nodemon index.js"
+    "start:prod":  "set NODE_ENV=production && nodemon index.js",
+    "debug": "ndb index.js"
   },
   "repository": {
     "type": "git",
