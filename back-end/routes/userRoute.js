@@ -10,21 +10,21 @@ const {
   getAllUser,
   getOneUser,
   deleteUser,
-  getAllUsers
+  getAllUsers,
 } = require("../controller/userController");
-
+const { forgotPassword, resetPassword } = require("../controller/authController");
 
 //Get One
-router.route("/:id").get(verifyTokenAndRestrictToAdmin,getOneUser)
+router.route("/:id").get(verifyTokenAndRestrictToAdmin, getOneUser);
 
 //Get All
-router.route('/').get(verifyTokenAndRestrictToAdmin, getAllUsers)
+router.route("/").get(verifyTokenAndRestrictToAdmin, getAllUsers);
 
 //Delete User
-router.route('/:id').delete(verifyTokenAndRestrictToAdmin, deleteUser)
+router.route("/:id").delete(verifyTokenAndRestrictToAdmin, deleteUser);
 
-
-
+router.post("/forgotPassword", forgotPassword);
+router.post("/resetPassword", resetPassword);
 // Update
 
 router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
@@ -47,7 +47,6 @@ router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 // GET USER STATS
 router.get("/stats", verifyTokenAndRestrictToAdmin, async (req, res) => {
