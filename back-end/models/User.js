@@ -63,6 +63,16 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// if user changed password update passwordChangedAt
+userSchema.pre("save", async function (next) {
+  // if this document password has been modified or this document is new (just been created), don't do anything, just go next()
+  if (!this.isModified("password") || this.isNew) return next();
+
+  // subtract 2 secs, to allow for error in saving to database. 
+  this.passwordChangedAt = Date.now() - 2000;
+  next();
+});
+
 // compare both passwords for login
 userSchema.methods.correctPassword = async function (
   candidatePassword,
@@ -94,8 +104,11 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest("hex");
 
-    console.log({resetToken}, 'password reset token =', this.passwordResetToken)
-    
+  console.log(
+    { resetToken },
+    "password reset token =",
+    this.passwordResetToken
+  );
 
   // TOKEN EXPIRES IN 15 mins
   this.passwordResetExpires = Date.now() + 15 * 60 * 1000;
