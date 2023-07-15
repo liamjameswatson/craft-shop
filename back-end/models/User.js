@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const util = require("util");
@@ -45,10 +46,13 @@ const userSchema = new mongoose.Schema(
     },
     img: { type: String },
     passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
   { timestamps: true }
 );
 
+// encrypt the password before saving to database
 userSchema.pre("save", async function (next) {
   // Only run this if password was modified, else - next()
   if (!this.isModified("password")) return next();
@@ -74,10 +78,30 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-    return JWTTimestamp < changedTimeStamp; 
+    return JWTTimestamp < changedTimeStamp;
   }
   // False means password has not been changed
   return false;
+};
+
+// for forgot password route
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  // save the encryted token to mongoDB
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+    console.log({resetToken}, 'password reset token =', this.passwordResetToken)
+    
+
+  // TOKEN EXPIRES IN 15 mins
+  this.passwordResetExpires = Date.now() + 15 * 60 * 1000;
+
+  // return uncncrypted token to be emailed
+  return resetToken;
 };
 
 module.exports = mongoose.model("User", userSchema);
