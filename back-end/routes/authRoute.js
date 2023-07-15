@@ -9,7 +9,6 @@ const {
   resetPassword,
   protect,
   updatePassword,
-  updateMe,
 } = require("../controller/authController");
 
 //REGISTER

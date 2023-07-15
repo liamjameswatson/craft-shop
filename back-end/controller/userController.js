@@ -51,3 +51,21 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// DeleteMe
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, {
+    active: false,
+    subscribed: false,
+  });
+});
+
+//Unsubscribe
+exports.unsubscribe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { subscribed: false });
+
+  res.status(200).json({
+    status: "success",
+    message: "You have sucessfully unsubcribed",
+  });
+});
