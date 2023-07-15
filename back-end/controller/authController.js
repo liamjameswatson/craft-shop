@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 const { promisify } = require("util");
 const sendEmail = require("../utils/email");
+const crypto = require("crypto");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -141,7 +142,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: "Token sent to email",
     });
   } catch (err) {
-    user.passwordResetToeken = undefined;
+    user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
@@ -151,4 +152,35 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.resetPassword = (req, res, next) => {};
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // Get User based on Token
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  // query for token, and compare token, is it greater than now? timestamp is converted by mongo
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  // If no user send error
+  if (!user) {
+    return next(new AppError("Token is invalid or has expired", 400));
+  }
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  // Log in user
+
+  const token = signToken(user._id);
+
+  res.status(201).json({
+    status: "success",
+    token
+  });
+});
