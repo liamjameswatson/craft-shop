@@ -12,10 +12,10 @@ const {
   deleteUser,
   getAllUsers,
   updateMe,
+  deleteMe,
+  unsubscribe
 } = require("../controller/userController");
-const {
-  protect
-} = require("../controller/authController");
+const { protect } = require("../controller/authController");
 
 //Get One
 router.route("/:id").get(verifyTokenAndRestrictToAdmin, getOneUser);
@@ -28,6 +28,12 @@ router.route("/:id").delete(verifyTokenAndRestrictToAdmin, deleteUser);
 
 // Update
 router.route("/updateMe").patch(protect, updateMe);
+
+// Delete
+router.route("/deleteMe").delete(deleteMe);
+
+//Unsubscribe
+router.route("/unsubscribe").patch(protect, unsubscribe);
 
 router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
   if (req.body.password) {

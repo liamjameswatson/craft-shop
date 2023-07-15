@@ -27,7 +27,8 @@ const createAndSendToken = (user, statusCode, res) => {
 
 //REGISTER
 exports.register = catchAsync(async (req, res, next) => {
-  const newUser = new User({
+  console.log(req.body);
+  const newUser = await User.create({
     userName: req.body.userName,
     email: req.body.email,
     // role: req.body.role,
