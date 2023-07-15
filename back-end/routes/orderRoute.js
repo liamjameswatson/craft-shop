@@ -10,6 +10,7 @@ const {
   getOneOrder,
   deleteOrder,
 } = require("../controller/orderController");
+const { protect, restrictTo } = require("../controller/authController");
 
 //CREATE
 router.route("/").post(verifyTokenAndAuthorisation, createOrder);
@@ -65,16 +66,18 @@ router.get("/find/:userId", verifyTokenAndAuthorisation, async (req, res) => {
 });
 
 // GET ALL ORDERS
+
+router.route("/").get(protect, restrictTo("user"), getAllOrders);
 // router.route("/").get(verifyTokenAndRestrictToAdmin, getAllOrders);
 
-router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
-  try {
-    const orders = await Order.find();
-    res.status(200).json(orders);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.get("/", verifyTokenAndRestrictToAdmin, async (req, res) => {
+//   try {
+//     const orders = await Order.find();
+//     res.status(200).json(orders);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // GET ONE ORDER
 router.get("/:id", verifyTokenAndAuthorisation, getOneOrder);

@@ -8,9 +8,9 @@ const {
   createProduct,
   getAllProducts,
   getOneProduct,
-  deleteProduct
+  deleteProduct,
 } = require("../controller/productController");
-
+const { protect, restrictTo } = require("../controller/authController");
 
 //CREATE
 router.route("/").post(verifyTokenAndRestrictToAdmin, createProduct);
@@ -22,7 +22,10 @@ router.route("/:id").get(verifyTokenAndRestrictToAdmin, getOneProduct);
 router.route("/").get(verifyTokenAndRestrictToAdmin, getAllProducts);
 
 //DELETE
-router.route("/:id").delete(verifyTokenAndRestrictToAdmin, deleteProduct);
+router
+  .route("/:id")
+  // .delete(protect, verifyTokenAndRestrictToAdmin, deleteProduct);
+  .delete(protect, deleteProduct);
 
 // Update
 
@@ -43,6 +46,5 @@ router.put(
       .json(updatedProduct, { message: "Product has been updated" });
   })
 );
-
 
 module.exports = router;

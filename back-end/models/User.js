@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const util = require("util");
 const hashAsync = util.promisify(bcrypt.hash);
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,7 +16,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: [true, "Please provide your email"],
+      lowercase: true,
       unique: true,
+      validate: [validator.isEmail, "Pleasse provide a valid email"],
     },
     role: {
       type: String,
@@ -25,17 +28,56 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Please provide a password"],
-      minlength: 8,
+      minlength: 9,
       select: false,
     },
+    passwordConfirm: {
+      type: String,
+      required: [true, "Please confirm your password"],
+      // select: false,
+      validate: {
+        //ONLY WORKS ON CREATE and SAVE()
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: "The Passwords are not the same!",
+      },
+    },
     img: { type: String },
+    passwordChangedAt: Date,
   },
   { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {
+  // Only run this if password was modified, else - next()
+  if (!this.isModified("password")) return next();
+  // Hash password
   this.password = await hashAsync(this.password, 12);
+  // remove passwordConfirm (only set for validations)
+  this.passwordConfirm = undefined;
   next();
 });
+
+// compare both passwords for login
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+// to verify a user's JWT
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimeStamp; 
+  }
+  // False means password has not been changed
+  return false;
+};
 
 module.exports = mongoose.model("User", userSchema);

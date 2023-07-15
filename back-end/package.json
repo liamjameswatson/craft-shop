@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " set NODE_ENV=development && nodemon index.js",
-    "start:prod":  "set NODE_ENV=production && nodemon index.js",
+    "start:prod": "set NODE_ENV=production && nodemon index.js",
     "debug": "ndb index.js"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.0",
     "nodemon": "^2.0.22",
-    "stripe": "^12.10.0"
+    "stripe": "^12.10.0",
+    "validator": "^13.9.0"
   }
 }
