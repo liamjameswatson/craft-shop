@@ -11,8 +11,11 @@ const {
   getOneUser,
   deleteUser,
   getAllUsers,
+  updateMe,
 } = require("../controller/userController");
-const { forgotPassword, resetPassword } = require("../controller/authController");
+const {
+  protect
+} = require("../controller/authController");
 
 //Get One
 router.route("/:id").get(verifyTokenAndRestrictToAdmin, getOneUser);
@@ -23,9 +26,8 @@ router.route("/").get(verifyTokenAndRestrictToAdmin, getAllUsers);
 //Delete User
 router.route("/:id").delete(verifyTokenAndRestrictToAdmin, deleteUser);
 
-router.post("/forgotPassword", forgotPassword);
-router.post("/resetPassword", resetPassword);
 // Update
+router.route("/updateMe").patch(protect, updateMe);
 
 router.put("/:id", verifyTokenAndAuthorisation, async (req, res) => {
   if (req.body.password) {
