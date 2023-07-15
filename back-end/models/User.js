@@ -68,7 +68,7 @@ userSchema.pre("save", async function (next) {
   // if this document password has been modified or this document is new (just been created), don't do anything, just go next()
   if (!this.isModified("password") || this.isNew) return next();
 
-  // subtract 2 secs, to allow for error in saving to database. 
+  // subtract 2 secs, to allow for error in saving to database.
   this.passwordChangedAt = Date.now() - 2000;
   next();
 });
