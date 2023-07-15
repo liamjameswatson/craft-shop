@@ -13,6 +13,18 @@ const signToken = (id) => {
   });
 };
 
+const createAndSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 //REGISTER
 exports.register = catchAsync(async (req, res, next) => {
   const newUser = new User({
@@ -23,15 +35,7 @@ exports.register = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  const token = signToken(newUser._id);
-
-  res.status(201).json({
-    status: "success",
-    token,
-    data: {
-      user: newUser,
-    },
-  });
+  createAndSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -48,11 +52,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  createAndSendToken(user, 200, res);
 });
 
 // CHECKS TO SEE IF USER IS LOGGED IN
@@ -177,10 +177,23 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // Log in user
 
-  const token = signToken(user._id);
+  createAndSendToken(newUser, 200, res);
+});
 
-  res.status(201).json({
-    status: "success",
-    token
-  });
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  //1) GET USER from collection
+  const user = await User.findById(req.user.id).select("+password");
+  //2) Check if posted current password is correct
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+    return next(new AppError("Your current password is wrong", 401));
+  }
+  //3) If so, update password
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  //User.findByIdAndUpdate will not work. The validation will not be checked, and the pre save middleware will not run.
+
+  //4) Log user in, send JWT
+  createAndSendToken(user, 200, res);
 });
